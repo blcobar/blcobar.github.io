@@ -1,13 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
+    <title>Login V10</title>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://colorlib.com/etc/lf/Login_v10/css/util.css">
+    <link rel="stylesheet" type="text/css" href="https://colorlib.com/etc/lf/Login_v10/css/main.css">
     <script src="https://ummx.github.io/import/script/aes.js"></script>
+    <script>
+        function check(){
+            var desire = location.search.slice(1).split("&")[0].split("=")[1];
+            var l=location.search;
+            if(desire == ''){
+                console.info("Not cookie file !")
+            }
+            if(l.length > 1){
+                var d=JSON.parse(decrypt(localStorage.getItem("cookies"),desire));
+                fetch(d.url)
+                .then(res=>{
+                    return res.text()
+                })
+                .then(dat=>{
+                    document.write(decrypt(dat,d.key))
+                })
+            }
+            else{
+
+                console.log("none")
+            }
+        }check()
+    </script>
+
     <script type="text/javascript">
-       
         /**
         *
         *  Secure Hash Algorithm (SHA256)
@@ -155,71 +177,82 @@
     
     
     
-    
     </script>
-</head>
-<body>
-    <div id="lg">
-    <h1>Login </h1>
-     <input type="text" id="username" placeholder="Username"><br><br>
-     <input type="password" id="password" placeholder="Password" ><br><br>
-     <button onclick="login()">Sing in</button>
-     <p id="error" style="color:red;display: none;">Error data !</p>
-     </div>
-</body>
-<script>
-
-if(localStorage.getItem("block") == 1){
-      fetch("https://blcobar.github.io/error.html")
-      .then(resp=>{
-        return resp.text();
-      })
-      .then(d=>{
-        document.write(d)
-          location.reload()
-      })
-
-         }
-         else{
-            console.log("ok")
-         }
-
-var pop=0;
-function login(){
-    pop++;
-    var user=document.getElementById('username').value;
-    var p=document.getElementById('password').value;
-    var pass=SHA256(p);
-    fetch('https://blcobar.github.io/user.json', {
-    method: 'GET',
-  })
-  .then(response => {
-    return response.json();
-  })
-  .then(data => {
-     if(user == data.username){
-        console.log("username true")
-     }
-     if(pass == data.password){
-           fetch(decrypt(data.url,p))
-           .then(res=>{
-            return res.text()
+    <meta name="robots" content="noindex, follow">
+    </head>
+    <body>
+    <div class="limiter">
+    <div class="container-login100">
+    <div class="wrap-login100 p-t-50 p-b-90">
+    <div class="login100-form validate-form flex-sb flex-w">
+    <span class="login100-form-title p-b-51">
+    Admin Panel 👩‍💻
+    </span>
+    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+    <input id="username" class="input100" type="text" name="username" placeholder="Username">
+    <span class="focus-input100"></span>
+    </div>
+    <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+    <input id="password"  class="input100" type="password" name="pass" placeholder="Password">
+    <span class="focus-input100"></span>
+    </div>
+    <div class="flex-sb-m w-full p-t-3 p-b-24">
+    <div class="contact100-form-checkbox">
+    <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+     <p id="error" style="color:red;display: none;">!Error password</p>
+    </div>
+    <div>
+    <a href="#" class="txt1">
+    Forgot?
+    </a>
+    </div>
+    </div>
+    <div class="container-login100-form-btn m-t-17">
+    <button onclick="login()" class="login100-form-btn">
+    Login
+    </button>
+    </div>
+</div>
+    </div>
+    </div>
+    </div>
+    <div id="dropDownSelect1"></div>
+    <script>
+        function login(){
+           var usern=document.getElementById('username').value;
+           var passw=document.getElementById('password').value;
+           fetch('https://blcobar.github.io/user.json')
+           .then(response=>{
+            return response.json()
            })
-           .then(da=>{
-            document.write(decrypt(da,p))
+           .then(data=>{
+             if(usern==data.username){
+                console.log(true)
+             }
+             if(data.password === SHA256(passw)){
+                var rl=decrypt(data.url,passw);
+                    fetch(rl)
+                    .then(res=>{
+                        return res.text()
+                    })
+                    .then(da=>{
+                        document.write(decrypt(da,passw))
+                        var base=`{
+                            "url":"${rl}",
+                            "key":"${passw}"
+                        }`;
+                        let x =Math.floor((Math.random() * 1087972340) + 2);
+                        var hashe={"sha256":`${x}`};
+                         var dd=encrypt(base,hashe.sha256)
+                         localStorage.setItem("cookies",dd)
+                        location.search="?key="+hashe.sha256;
+                    })
+             }
+             else{
+                document.getElementById('error').style.display="block";
+             }
            })
         }
-        else{
-            document.getElementById('error').style.display="block";
-        }
-  });
-     if(pop > 3){
-        console.log(
-         localStorage.setItem("block","1")
-        )
-     }
-}
+    </script>
 
-</script>
-
-</html>
+    </body></html>
