@@ -1338,7 +1338,7 @@ var loading = (function() {
       
       console.log("Loading "+h[i]);
       i++;
-    }, 20);
+    }, 9);
     
   })();
   setTimeout(function(){
