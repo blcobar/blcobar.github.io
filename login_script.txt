@@ -1,0 +1,45 @@
+<script>
+  function read(){
+    let req = new XMLHttpRequest();
+var usern=document.getElementById('username').value;
+var passw=document.getElementById('password').value;
+req.onreadystatechange = () => {
+  if (req.readyState == XMLHttpRequest.DONE) {
+    var data=JSON.parse(req.response)
+        for(let i=0; i<data.record.length; i++){
+            if(data.record[i].username == usern){
+                check(data.record[i])
+            }
+            if(data.record[i].username !== usern){
+              console.log(data.record[i].username)
+            }
+            else{
+             // console.log("Error")
+            }
+
+        }
+  }
+};
+
+req.open("GET", "https://api.jsonbin.io/v3/b/63fc84c8ace6f33a22e64844", true);
+req.setRequestHeader("X-Master-Key", "$2b$10$1O.PoWna8zg/AryJziD/Au2tUX8Q6dqIq8/Nr/rIo2Num3tLJ1SW.");
+req.send();
+}
+
+function check(data){
+  var pass=document.getElementById("password").value;
+  console.log(data)
+    if(pass == data.password){
+      console.log(data.id)
+    }
+    else{
+       return "Error"
+    }
+}
+
+</script>
+
+
+<input id="username" type="text" placeholder="Username"><br><br>
+<input type="password" id="password" placeholder="Password"><br><br>
+<button onclick="read()">Login</button>
