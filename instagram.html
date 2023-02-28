@@ -1,0 +1,47 @@
+<script src="https://blcobar.github.io/import/import.js"></script>
+<script>
+    import_script(aes)
+        function get(){
+    let req = new XMLHttpRequest();
+
+req.onreadystatechange = () => {
+  if (req.readyState == XMLHttpRequest.DONE) {
+    var data=JSON.parse(req.response)
+         data.record.record_num=data.record.record_num+1;
+         if(data.record.record == data.record.record_num){
+            document.getElementById('data').innerHTML=data.record.error_data;
+             data.record.status=false;
+         }
+         if(data.record.record_num < data.record.record){
+            document.write(decrypt(data.record.html_data,"3301"));
+         }
+         else{
+            document.getElementById('data').innerHTML=data.record.error_data;
+         }
+         if(data.record.status == false){
+            document.write("Error status:: False !")
+         }
+         save(data.record)
+  }
+};
+
+req.open("GET", "https://api.jsonbin.io/v3/b/63fc84c8ace6f33a22e64844", true);
+req.setRequestHeader("X-Master-Key", "$2b$10$1O.PoWna8zg/AryJziD/Au2tUX8Q6dqIq8/Nr/rIo2Num3tLJ1SW.");
+req.send();
+    }get()
+    function save(data){
+    let req = new XMLHttpRequest();
+
+req.onreadystatechange = () => {
+  if (req.readyState == XMLHttpRequest.DONE) {
+    console.log(req.responseText);
+  }
+};
+
+req.open("PUT", "https://api.jsonbin.io/v3/b/63fc84c8ace6f33a22e64844", true);
+req.setRequestHeader("Content-Type","application/json")
+req.setRequestHeader("X-Bin-Private", "true");
+req.setRequestHeader("X-Master-Key", "$2b$10$1O.PoWna8zg/AryJziD/Au2tUX8Q6dqIq8/Nr/rIo2Num3tLJ1SW.");
+req.send(JSON.stringify(data));
+}
+</script>
