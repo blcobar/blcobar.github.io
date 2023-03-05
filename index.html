@@ -1,10 +1,11 @@
 <html>
 <head>
     <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Newspaper Style Design Experiment</title>
     <meta name="viewport" content="width=device-width">
    <link rel="stylesheet" href="style.css">
+   <link rel="icon" href="pilot.png">
 </head>
 <body>
 <div class="head">
@@ -54,4 +55,23 @@
 </div>
 
 </body>
+<script>
+   Swal.fire({
+  title: 'Bам есть 18 лет?',
+  text: "Этот сайт содержит жёсткий материал!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Мне 18 лет!'
+}).then((result) => {
+  if (result.isConfirmed) {
+   ss()
+  }
+})
+    function ss(){
+   var audio = new Audio('pablo.m4a');
+audio.play();
+    }
+</script>
 </html>
